@@ -1,9 +1,3 @@
-<style>
-img {
-    border: 1px red solid;
-}
-</style>
-
 # VNoteReader
 
 - VNote形式(拡張子.vnt)ファイルを読み取るのに適当なWindowsアプリが無かったので作りました。
