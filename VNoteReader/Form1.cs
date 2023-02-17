@@ -139,6 +139,9 @@ namespace VNoteReader
         /// <param name="vntFilePath">vntファイルパス</param>
         private void Read(string vntFilePath)
         {
+            Text = "VNoteReader - " + vntFilePath;
+            ClearList();
+            ClearText();
             try
             {
                 analyzeResult = VNoteUtil.AnalyzeFile(vntFilePath);
@@ -149,6 +152,14 @@ namespace VNoteReader
             {
                 ErrorTrap(ex);
             }
+        }
+
+        /// <summary>
+        /// メモリストクリア
+        /// </summary>
+        private void ClearList()
+        {
+            listBox1.Items.Clear();
         }
 
         /// <summary>
@@ -183,6 +194,29 @@ namespace VNoteReader
         {
             textBox1.Text = analyzeResult[i]["TEXT"].Replace("\n", "\r\n");
             textBox2.Text = analyzeResult[i]["BLOCK"].Replace("\n", "\r\n");
+            textBox3.Text = FormatDate(analyzeResult[i]["LAST-MODIFIED"]);
+        }
+
+        /// <summary>
+        /// 最終更新日時をパースし、書式設定する
+        /// (20190102T090407Z ←こういう文字列)
+        /// </summary>
+        /// <param name="str">日付文字列</param>
+        /// <returns></returns>
+        private string FormatDate(string str)
+        {
+            if (str == null) return "";
+            if (str.Length < 16) return str;
+            string[] v = {
+                str.Substring(0, 4),
+                str.Substring(4, 2),
+                str.Substring(6, 2),
+                str.Substring(9, 2),
+                str.Substring(11, 2),
+                str.Substring(13, 2),
+            };
+
+            return string.Format("{0}-{1}-{2} {3}:{4}:{5}", v);
         }
 
         /// <summary>
